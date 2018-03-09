@@ -47,7 +47,13 @@ public class Student {
 		this.email = email;
 	}
 	
-	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[id= ").append(id).append(", firstName= ")
+		.append(firstName).append(", lastName= ").append(lastName)
+		.append(", email= ").append(email).append("]");
+		return sb.toString();
+	}
 	
 	
 }

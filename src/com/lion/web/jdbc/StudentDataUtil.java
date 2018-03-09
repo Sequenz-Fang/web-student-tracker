@@ -10,6 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 /**
+ * 
  * Represent the data accessor object (DAO) in the db application.
  * @author Lion's laptop
  *
@@ -30,7 +31,7 @@ public class StudentDataUtil {
 			conn = dataSource.getConnection();
 			
 			// create sql statement
-			String sql = "select * from students order by last_name";
+			String sql = "select * from student order by last_name";
 			st = conn.createStatement();
 			
 			//execute query
@@ -41,8 +42,8 @@ public class StudentDataUtil {
 			
 				// retrieve data from result set row
 				int id = res.getInt("id");
-				String firstName = res.getString("firstName");
-				String lastName = res.getString("lastName");
+				String firstName = res.getString("first_name");
+				String lastName = res.getString("last_name");
 				String email = res.getString("email");
 				
 				// create new student object
