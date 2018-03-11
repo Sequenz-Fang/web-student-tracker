@@ -9,6 +9,11 @@
 <body>
 	<div id = "container">
 		<div id = "content">
+		
+			<!-- Add a new student button -->
+			<input type="button" value="Add Student" onclick="window.location.href='add-student-form.jsp'; return false;"
+					class='add-student-botton'/>
+					
 			<table>
 				<tr>
 					<th>First Name</th>

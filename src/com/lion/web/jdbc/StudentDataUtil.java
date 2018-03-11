@@ -1,7 +1,7 @@
 package com.lion.web.jdbc;
 
 import java.sql.Connection;
-
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import javax.sql.DataSource;
  *
  */
 public class StudentDataUtil {
-	private DataSource dataSource;
+	private static DataSource dataSource;
 
 	public StudentDataUtil(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -63,7 +63,7 @@ public class StudentDataUtil {
 		return students;
 	}
 	
-	private void close(Connection conn, Statement st, ResultSet res) {
+	private static void close(Connection conn, Statement st, ResultSet res) {
 		try {
 			if (res != null) {
 				res.close();
@@ -77,6 +77,34 @@ public class StudentDataUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static void addStudent(Student theStudent) throws Exception {
+		
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			// get db connection
+			conn = dataSource.getConnection();
+			// create sql for insert
+			String sql = "insert into student "+"(first_name, last_name, email) "+"values (?, ?, ?)";
+			st = conn.prepareStatement(sql);
+			
+			// set the param values for the student
+			st.setString(1, theStudent.getFirstName());
+			st.setString(2, theStudent.getLastName());
+			st.setString(3, theStudent.getEmail());
+			
+			// execute sql insert
+			st.execute();
+			
+		} 
+		finally {
+			// cleanup JDBC objects
+			close(conn, st, null);
+		}
+		
 		
 	}
 }
