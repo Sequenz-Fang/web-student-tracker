@@ -19,12 +19,18 @@
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
+					<th>Action</th>
 				</tr>
 				<c:forEach var="s" items="${STUDENT_LIST}" >
+					<!-- set up new student links -->
+					<c:url var="templink" value="StudentControllerServlet">
+						<c:param name="command" value="LOAD"/>
+						<c:param name="studentId" value= "${s.getId()}"/>				</c:url>
 					<tr>
 						<td>${s.getFirstName()}</td>
 						<td>${s.getLastName()}</td>
-						<td>${s.getEmail()}</td> 
+						<td>${s.getEmail()}</td>
+						<td><a href="${templink}">Update</a></td> 
 					</tr>	
 				</c:forEach>	
 				

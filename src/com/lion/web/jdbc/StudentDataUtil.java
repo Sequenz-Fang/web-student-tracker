@@ -107,4 +107,79 @@ public class StudentDataUtil {
 		
 		
 	}
+	public Student getStudent(String requestId) throws Exception {
+		Student student = null;
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet res = null;
+		int studentId;
+		try {
+			// convert student id to int
+			studentId = Integer.parseInt(requestId);
+			
+			// get connection to database
+			conn = dataSource.getConnection();
+			
+			// create sql to get selected student
+			String sql = "select * from student where id=?";
+			
+			// create prepared statement
+			st = conn.prepareStatement(sql);
+			// set params
+			st.setInt(1, studentId);
+			// execute query
+			res = st.executeQuery();
+			// retrieve data from result set
+			if (res.next()) {
+				String firstName = res.getString("first_name");
+				String lastName = res.getString("last_name");
+				String email = res.getString("email");
+				
+				student = new Student(studentId, firstName, lastName, email);
+			} else {
+				throw new Exception("Cannot find a student id: "+studentId);
+			}
+			
+			return student;
+			
+		} finally {
+			// close jdbc objects
+			close(conn, st, res);
+		}
+		
+	}
+	public void updateStudent(Student newStudent) throws Exception {
+		
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			// get db connection
+			// create sql update statement
+			conn = dataSource.getConnection();
+			String sql = "update student " + "set first_name=?, last_name=?, email=? "
+						+ "where id=?";
+			st = conn.prepareStatement(sql);
+			// set parameters in 1, 2, 3 column
+			st.setString(1, newStudent.getFirstName());
+			st.setString(2, newStudent.getLastName());
+			st.setString(3, newStudent.getEmail());
+			st.setInt(4, newStudent.getId());
+			
+			st.execute();
+		} finally {
+			close(conn, st, null);
+		}
+		
+		
+	}
 }
+
+
+
+
+
+
+
+
+
+
