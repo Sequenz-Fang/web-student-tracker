@@ -25,12 +25,23 @@
 					<!-- set up new student links -->
 					<c:url var="templink" value="StudentControllerServlet">
 						<c:param name="command" value="LOAD"/>
-						<c:param name="studentId" value= "${s.getId()}"/>				</c:url>
+						<c:param name="studentId" value= "${s.getId()}"/>
+					</c:url>
+					<c:url var="deletelink" value="StudentControllerServlet">
+						<c:param name="command" value="DELETE"/>
+						<c:param name="studentId" value="${s.getId()}"/>
+					</c:url>
 					<tr>
 						<td>${s.getFirstName()}</td>
 						<td>${s.getLastName()}</td>
 						<td>${s.getEmail()}</td>
-						<td><a href="${templink}">Update</a></td> 
+						<td>
+							<a href="${templink}">Update</a>
+							| 
+							<a href="${deletelink}"
+							   onclick="if(!(confirm('Are you sure delete the student?'))) return false">
+							   Delete</a>
+						</td>
 					</tr>	
 				</c:forEach>	
 				
